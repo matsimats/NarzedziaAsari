@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASARI do wyciągania i zamieniania</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <img src="https://k3.asari.pro/resources/LogoAsari.png" alt="ASARI Logo">
+    <h1>AASARI do wyciągania i zamieniania</h1>
+  </header>
+  {% include 'menu.html' %}
+  <div class="container">
+    <form id="generate-excel-form" action="/generate_excel" method="post">
+      <h3>Wklej kod HTML:</h3>
+      <textarea name="html" id="html-code" rows="20" cols="100"></textarea><br>
+      <input type="button" value="Wyczyść" onclick="document.getElementById('html-code').value = '';">
+      <h3>Wybierz typ analizy:</h3>
+      <input type="radio" id="senchatest" name="parse_type" value="senchatest" checked>
+      <label for="senchatest">Sencha Test</label><br>
+      <input type="radio" id="fieldText" name="parse_type" value="fieldText">
+      <label for="fieldText">Field Text</label><br>
+      <br>
+      <br>
+      <input type="submit" value="Generuj plik .xlsx">
+    </form>
+    <br>
+    <br>
+    <div id="response-message" style="display: none;"></div>
+    <br>
+    <br>
+    <button id="copy-button" style="display: none;" onclick="copyToClipboard()">Kopiuj</button>
+  </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <script>
+    // Copy function
+    function copyToClipboard() {
+      const textToCopy = $("#response-message").text();
+      navigator.clipboard.writeText(textToCopy).then(function () {
+        alert('Skopiowano do schowka!');
+      }, function (err) {
+        alert('Wystąpił błąd podczas kopiowania: ', err);
+      });
+    }
+
+    $(document).ready(function () {
+      $("#generate-excel-form").submit(function (event) {
+        event.preventDefault();
+
+        const formData = new FormData(this);
+
+        $.ajax({
+          url: "/generate_excel",
+          type: "POST",
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function (response) {
+            const { message, result, found_objects } = response;
+            const messageElement = $("#response-message");
+            const copyButton = $("#copy-button");
+
+            if (result === "success") {
+              messageElement.css("color", "green");
+              copyButton.show();  // Show copy button
+            } else {
+              messageElement.css("color", "red");
+              copyButton.hide();  // Hide copy button
+            }
+
+            // Display found objects
+            let foundObjectsText = "";
+            for (const obj of found_objects) {
+              foundObjectsText += `${obj[0]}: ${obj[1]}<br>`;
+            }
+            messageElement.html(`${message}<br><br>Znalezione obiekty:<br>${foundObjectsText}`).show();
+          },
+          error: function () {
+            const messageElement = $("#response-message");
+            messageElement
+              .css("color", "red")
+              .text("Wystąpił błąd podczas generowania pliku .xlsx.")
+              .show();
+          },
+        });
+      });
+    });
+  </script>
+
+</body>
+
+</html>

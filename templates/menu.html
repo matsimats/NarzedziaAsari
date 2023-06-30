@@ -1,0 +1,9 @@
+<div class="menu-bar">
+    <a class="{{ 'menu-item active' if request.path == '/' else 'menu-item' }}" href="{{ url_for('index') }}">Wyciągator</a>
+    <a class="{{ 'menu-item-not-rounded active' if request.path == '/replacer' else 'menu-item' }}" href="{{ url_for('replacer') }}">Zamieniator</a>
+    
+
+
+
+
+</div>

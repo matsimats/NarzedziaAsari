@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASARI Wyciągnij obiekty za pomocą jednego kliknięcia!</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <header>
+        <img src="https://k3.asari.pro/resources/LogoAsari.png" alt="ASARI Logo">
+        <h1>ASARI do wyciągania i zamieniania</h1>
+    </header>
+
+    {% include 'menu.html' %}
+  <div class="container">
+    <h2>Upload Excel</h2>
+    <form action="/excel_changer" method="post" enctype="multipart/form-data">
+        <br>
+        Wybierz plik excel:
+        <br>
+        <br>
+        <input type="file" name="file" id="file"><br>
+        <br>
+        Wartość do zamiany:
+        <br>
+        <input type="text" name="input-word" id="input-word"><br>
+        <br>
+        Nowa wartość:
+        <br>
+        <input type="text" name="output-word" id="output-word"><br>
+        <br>
+        <input type="submit" value="Zamień">
+    </form>
+    </div>
+</body>
+
+</html>
+</body>
+
+</html>

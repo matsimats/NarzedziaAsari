@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASARI Wyciągnij obiekty za pomocą jednego kliknięcia!</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+  <header>
+    <img src="https://k3.asari.pro/resources/LogoAsari.png" alt="ASARI Logo">
+    <h1>ASARI do wyciągania i zamieniania</h1>
+  </header>
+  {% include 'menu.html' %}
+  <div class="container">
+    <h3>Wklej Parms z postmana xoxo</h3>
+    <h4>W tym programie chodzi o to, żeby zamienić znaki "=" i "&" na ":" i "\n" : D</h4>
+    <form method="POST">
+      <label for="text">Wprowadź:</label><br>
+      <textarea id="text" name="text" rows="10" cols="30"></textarea><br>
+      <input type="submit" value="Formatuj">
+    </form>
+    {% if result %}
+    <h2>Wynik:</h2>
+    <pre>{{ result }}</pre>
+    {% endif %}
+</body>
+
+</html>
+</body>
+
+</html>
